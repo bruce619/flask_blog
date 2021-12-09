@@ -6,13 +6,26 @@
 # pip install flask_wtf
 # pip install email_validator
 # pip install python-dotenv
+# pip install sqlalchemy
 
 from flask import Flask
+from sqlite3 import Connection as SQLite3Connection
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from learningflask.config import Config
+
+
+# configure sqlite3 to enforce foreign key constraints
+@event.listens_for(Engine, "connect")
+def _set_sqlite_pragma(dbapi_connection, connection_record):
+    if isinstance(dbapi_connection, SQLite3Connection):
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON;")
+        cursor.close()
 
 
 db = SQLAlchemy()

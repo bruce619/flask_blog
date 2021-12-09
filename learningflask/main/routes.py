@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import render_template, request
-from learningflask.posts.models import Post
+from learningflask.models import Post
 
 main = Blueprint('main', __name__)
 

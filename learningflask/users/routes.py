@@ -2,8 +2,8 @@ from flask import Blueprint
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from learningflask import db, bcrypt
-from .models import User
-from learningflask.posts.models import Post
+from learningflask.models import User
+from learningflask.models import Post
 from learningflask.users.forms import (
     RegistrationForm,
     LoginForm,

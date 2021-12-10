@@ -1,9 +1,11 @@
 .env
 
-.idea
+.idea/
 
 venv/
 
 .pytest_cache/
 
 __pycache__/
+
+learningflask/site.db

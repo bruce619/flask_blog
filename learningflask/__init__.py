@@ -5,8 +5,11 @@
 # pip install flask-mail
 # pip install flask_wtf
 # pip install email_validator
-# pip install python-dotenv
-# pip install sqlalchemy
+# pip install flask-marshmallow
+# instead of using set FLASK_APP = run.py, try $env:FLASK_APP = "run.py"
+# flask db init
+# flask db migrate -m "Initial Migration"
+# flask db upgrade
 
 from flask import Flask
 from sqlite3 import Connection as SQLite3Connection
@@ -16,7 +19,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-from learningflask.config import Config
+from learningflask.config import config
+from flask_migrate import Migrate
 
 
 # configure sqlite3 to enforce foreign key constraints
@@ -29,6 +33,7 @@ def _set_sqlite_pragma(dbapi_connection, connection_record):
 
 
 db = SQLAlchemy()
+migrate = Migrate()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
@@ -36,19 +41,19 @@ login_manager.login_message_category = 'info'
 mail = Mail()
 
 
-def create_app(config_class=Config):
+def create_app(config_name):
     app = Flask(__name__)
-    app.config.from_object(Config)
-
+    app.config.from_object(config.get(config_name or 'default'))
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    migrate.init_app(app, db)
 
-    from learningflask.users.routes import users
-    from learningflask.posts.routes import posts
-    from learningflask.main.routes import main
-    from learningflask.errors.handlers import errors
+    from learningflask.routes.v1.user import users
+    from learningflask.routes.v1.post import posts
+    from learningflask.routes.v1.main import main
+    from errors.handlers import errors
 
     app.register_blueprint(users)
     app.register_blueprint(posts)

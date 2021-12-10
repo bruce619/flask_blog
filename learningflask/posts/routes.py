@@ -1,7 +1,7 @@
 from flask import Blueprint
 from learningflask import db
 from flask import render_template, flash, redirect, url_for, request, abort
-from learningflask.models import Post
+from .models import Post
 from learningflask.posts.forms import PostForm
 from flask_login import current_user, login_required
 

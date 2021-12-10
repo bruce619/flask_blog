@@ -1,4 +1,4 @@
-from learningflask.models import User
+from learningflask.models.v1.user import User
 
 
 def test_new_user():
@@ -14,3 +14,4 @@ def test_new_user():
     )
     assert user.username == 'chris'
     assert user.email == 'chris@gmail.com'
+

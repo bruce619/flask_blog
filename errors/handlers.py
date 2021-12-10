@@ -5,12 +5,12 @@ errors = Blueprint('errors', __name__)
 
 @errors.app_errorhandler(404)
 def error_404(error):
-    return render_template('errors/404.html', title='Not Found'), 404
+    return render_template('v1/errors/404.html', title='Not Found'), 404
 
 
 @errors.app_errorhandler(403)
 def error_403(error):
-    return render_template('errors/403.html', title='Forbidden'), 403
+    return render_template('v1/errors/403.html', title='Forbidden'), 403
 
 
 @errors.app_errorhandler(500)
